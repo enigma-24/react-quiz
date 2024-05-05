@@ -5,10 +5,12 @@ import Main from './Main';
 import Loader from './Loader';
 import Error from './Error';
 import StartScreen from './StartScreen';
+import Question from './Question';
 
 const initialState = {
   questions: [],
   status: 'loading', //status can be: loading, error, ready, active, finished
+  index: 0,
 };
 
 const reducer = (currentState, action) => {
@@ -17,13 +19,15 @@ const reducer = (currentState, action) => {
       return { ...currentState, status: 'ready', questions: action.payload };
     case 'dataFailed':
       return { ...currentState, status: 'error' };
+    case 'start':
+      return { ...currentState, status: 'active' };
     default:
       throw new Error('Unknown Action');
   }
 };
 
 const App = () => {
-  const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
+  const [{ questions, status, index }, dispatch] = useReducer(reducer, initialState);
 
   const numQuestions = questions.length;
 
@@ -40,7 +44,10 @@ const App = () => {
       <Main>
         {status === 'loading' && <Loader />}
         {status === 'error' && <Error />}
-        {status === 'ready' && <StartScreen numQuestions={numQuestions} />}
+        {status === 'ready' && (
+          <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
+        )}
+        {status === 'active' && <Question question={questions[index]} />}
       </Main>
     </div>
   );
