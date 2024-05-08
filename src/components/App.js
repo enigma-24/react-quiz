@@ -35,7 +35,7 @@ const reducer = (currentState, action) => {
             : currentState.points,
       };
     case 'nextQuestion':
-      return { ...currentState, index: currentState.index + 1 };
+      return { ...currentState, answer: null, index: currentState.index + 1 };
     default:
       throw new Error('Unknown Action');
   }
