@@ -85,7 +85,7 @@ const App = () => {
 
   const numQuestions = questions.length;
   const maxPossiblePoints = questions.reduce(
-    (prevValue, currValue) => prevValue + currValue.points,
+    (accumulator, currValue) => accumulator + currValue.points,
     0
   );
   useEffect(() => {
